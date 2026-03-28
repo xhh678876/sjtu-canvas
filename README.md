@@ -1,8 +1,8 @@
-# 📚 SJTU Canvas 课程助手
+# 📚 SJTU Canvas Agent Skill — AI 驱动的 Canvas 课程助手
 
-> 一个 [OpenClaw](https://github.com/openclaw/openclaw) 技能，让 AI 帮你管理 Canvas LMS 上的课程、作业、成绩和课件。
+> 一个 **AI Agent 技能（Skill）**，赋予你的 AI Agent 管理 Canvas LMS 课程的能力 —— 不只是查数据，更能帮你理解课件、辅导作业、定位知识点。
 
-默认适配 **上海交通大学** Canvas (oc.sjtu.edu.cn)，修改一行配置即可兼容任何 Canvas LMS 实例。
+基于 [OpenClaw](https://github.com/openclaw/openclaw) Agent 框架，默认适配 **上海交通大学** Canvas (oc.sjtu.edu.cn)，修改一行配置即可兼容任何 Canvas LMS 实例。
 
 ## 💡 灵感来源
 
