@@ -1,23 +1,25 @@
-# SJTU Canvas 课程助手
+# 📚 SJTU Canvas 课程助手
 
-一个 [OpenClaw](https://github.com/openclaw/openclaw) / [ClawHub](https://clawhub.com) 技能，用于管理上海交通大学 Canvas LMS 课程数据。
+> 一个 [OpenClaw](https://github.com/openclaw/openclaw) 技能，让 AI 帮你管理 Canvas LMS 上的课程、作业、成绩和课件。
 
-也适用于其他基于 Canvas LMS 的高校，修改 `base_url` 即可。
+默认适配 **上海交通大学** Canvas (oc.sjtu.edu.cn)，修改一行配置即可兼容任何 Canvas LMS 实例。
 
-## 功能
+## ✨ 功能一览
 
-- 📂 查看/下载/批量下载课程文件（PPT/PDF/DOCX）
-- 📝 查看作业列表、DDL、提交状态
-- ⏰ 同步 DDL 到 Apple 日历（macOS + iCloud → iPhone）
-- 🧠 课件内容提取（PPT/PDF → Markdown），配合 AI 总结
-- 📊 查看成绩、计算均分
-- 💬 课程讨论区摘要
-- 🚀 一键提交作业
-- 📦 期末复习包生成
+| 功能 | 说明 |
+|---|---|
+| 📂 **课件管理** | 查看、下载、批量下载课程文件（PPT/PDF/DOCX） |
+| 🧠 **AI 总结** | 提取课件内容为 Markdown，配合 AI 生成学习笔记 |
+| 📝 **DDL 追踪** | 一键查看所有课程的未来截止时间 |
+| ⏰ **日历同步** | 将 DDL 同步到 Apple 日历，iCloud 自动推送到 iPhone |
+| 📊 **成绩查询** | 查看各科已出成绩，计算均分 |
+| 💬 **讨论区** | 获取课程讨论区内容和摘要 |
+| 🚀 **提交作业** | 直接从命令行提交作业文件 |
+| 📦 **复习包** | 批量导出所有课件为 Markdown，导入 NotebookLM 复习 |
 
-## 安装
+## 🚀 安装
 
-### 通过 ClawHub
+### 通过 ClawHub（推荐）
 
 ```bash
 clawhub install sjtu-canvas
@@ -27,43 +29,99 @@ clawhub install sjtu-canvas
 
 ```bash
 cd ~/.openclaw/workspace/skills
-git clone https://github.com/xiehaohui/sjtu-canvas.git sjtu-canvas
+git clone https://github.com/xhh678876/sjtu-canvas.git sjtu-canvas
 ```
 
-## 配置
+## ⚙️ 配置
 
-1. 复制配置模板：
+### 1. 创建配置文件
 
 ```bash
+cd ~/.openclaw/workspace/skills/sjtu-canvas
 cp config.example.json config.json
 ```
 
-2. 获取 Canvas API Token：
-   - 登录 Canvas → 设置 → 新建访问令牌
-   - 将 token 填入 `config.json`
+### 2. 获取 Canvas API Token
 
-3. 安装 Python 依赖：
+1. 登录你的 Canvas → **设置** → **新建访问令牌**
+2. 复制 Token，填入 `config.json`：
+
+```json
+{
+  "canvas_token": "你的Token",
+  "base_url": "https://oc.sjtu.edu.cn",
+  "save_dir": "~/Downloads/Canvas课件",
+  "calendar_name": "Canvas作业"
+}
+```
+
+> 💡 非 SJTU 用户只需修改 `base_url` 为你学校的 Canvas 地址。
+
+### 3. 安装 Python 依赖
 
 ```bash
 pip3 install python-pptx pdfplumber requests
 ```
 
-## 使用
+## 💬 使用方式
 
-安装配置完成后，在 OpenClaw 对话中直接说：
+配置完成后，在 OpenClaw 对话中自然语言交互即可：
 
-- "看一下最近有哪些 DDL"
-- "下载传热学的课件"
-- "帮我总结这个 PPT"
-- "查看成绩"
-- "同步 DDL 到日历"
+```
+"看一下最近有哪些 DDL"
+"下载传热学的课件"
+"帮我总结这个 PPT 的重点"
+"查看成绩"
+"把 DDL 同步到日历"
+"帮我提交作业"
+```
 
-## 兼容性
+### 命令行直接使用
 
-- 默认配置为 SJTU Canvas (oc.sjtu.edu.cn)
-- 修改 `config.json` 中的 `base_url` 可适配任何 Canvas LMS 实例
-- Apple 日历同步功能仅支持 macOS
+```bash
+cd ~/.openclaw/workspace/skills/sjtu-canvas
 
-## License
+# 查看课程列表
+python3 scripts/canvas_api.py courses
 
-MIT
+# 查看所有未来 DDL
+python3 scripts/canvas_api.py ddls
+
+# 查看已出成绩
+python3 scripts/canvas_api.py grades
+
+# 提取课件内容
+python3 scripts/file_extractor.py path/to/lecture.pptx
+
+# 同步 DDL 到 Apple 日历
+python3 scripts/calendar_sync.py
+```
+
+## 🏗️ 项目结构
+
+```
+sjtu-canvas/
+├── SKILL.md              # OpenClaw 技能定义
+├── config.example.json   # 配置模板
+├── README.md
+├── LICENSE
+└── scripts/
+    ├── canvas_api.py       # Canvas API 核心（课程/文件/作业/成绩/讨论）
+    ├── file_extractor.py   # 课件提取器（PPT/PDF/DOCX → Markdown）
+    └── calendar_sync.py    # DDL → Apple Calendar 同步（macOS）
+```
+
+## 🎓 兼容性
+
+- ✅ **Canvas LMS** — 适配任何 Canvas 实例，不限于 SJTU
+- ✅ **macOS** — Apple 日历同步（iCloud → iPhone）
+- ✅ **OpenClaw** — 作为 AgentSkill 自动触发
+- ⚠️ 日历同步功能仅限 macOS
+
+## 📄 License
+
+[MIT](LICENSE)
+
+---
+
+Made with 🐺 by [小灰灰大人](https://github.com/xhh678876)
